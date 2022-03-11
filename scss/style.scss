@@ -1,0 +1,114 @@
+@import './reset';
+
+$border-color: #171717;
+$cell-size: 8rem;
+$mark-size: $cell-size*.9;
+
+body{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    background-color: #fff;
+    color: #333;
+}
+
+.board{
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    align-items: center;
+    grid-template-columns: repeat(3,auto);
+    .cell{
+        width: $cell-size;
+        height: $cell-size;
+        border: 1px solid $border-color;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        cursor: pointer;
+
+        //select first three
+        &:nth-child(-n+3){
+            border-top: none;
+        }
+        //select 0 3 7
+        &:nth-child(3n+1){
+            border-left: none;
+        }
+        //select last 3
+        &:nth-child(n+7){
+            border-bottom: none;
+        }
+        //select 2 5 8
+        &:nth-child(3n+3){
+            border-right: none;
+        }
+
+        //generating x shape
+        &.x::before,&.x::after{
+            content: '';
+            position: absolute;
+            width: $mark-size*.15;
+            height: $mark-size;
+            background-color: $border-color;
+        }
+        &.x::before{
+            transform: rotate(45deg);
+        }
+        &.x::after{
+            transform: rotate(-45deg);
+        }
+
+        //generating circle shape
+        &.c::before,&.c::after{
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+        }
+        &.c::before{
+            width: $mark-size;
+            height: $mark-size;
+            background-color: $border-color;    
+        }
+        &.c::after{
+            width: $mark-size*.7;
+            height: $mark-size*.7;
+            background-color: white;    
+        }
+
+        &.x,&.c{
+            cursor: not-allowed;
+        }
+    }
+}
+
+
+.winning-message{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba($color: #000000, $alpha: 0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 5rem;
+    flex-direction: column;
+    button{
+        font-size: 3rem;
+        padding: 0.5rem 2rem;
+        border-radius: 1rem;
+        cursor: pointer;
+        border: none;
+        background-color: white;
+    }
+    &.show{
+        display: flex;
+    }
+}
